@@ -1,0 +1,17 @@
+# Raw source files are stored locally and are not version-controlled.
+/data/raw/*.csv
+
+# Python cache and local environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Power BI local workspace files
+*.pbix.autosave
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
