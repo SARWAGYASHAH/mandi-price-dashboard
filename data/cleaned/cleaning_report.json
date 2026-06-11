@@ -1,0 +1,31 @@
+{
+  "input_rows": 737392,
+  "rows_removed_non_target_commodity": 0,
+  "rows_removed_missing_or_invalid_critical_values": 0,
+  "rows_removed_non_positive_prices": 679,
+  "rows_removed_max_below_min": 2,
+  "duplicate_rows_removed": 0,
+  "output_rows": 736711,
+  "date_min": "2023-06-06",
+  "date_max": "2025-06-11",
+  "commodities": [
+    "Onion",
+    "Potato",
+    "Rice",
+    "Tomato",
+    "Wheat"
+  ],
+  "anomaly_rows": 16336,
+  "volatility_flag_rows": 54688,
+  "modal_outside_min_max_rows_retained": 1246,
+  "missing_value_policy": {
+    "critical_dimensions_dates_prices": "Drop rows that remain missing or fail parsing.",
+    "variety_and_grade": "Fill blank values with 'Unknown'.",
+    "non_positive_prices": "Drop because mandi prices must be positive.",
+    "max_below_min": "Drop because the quoted range is internally invalid.",
+    "modal_outside_range": "Retain and flag for audit; these may be source errors or genuine unusual quotes."
+  },
+  "source_files": [
+    "Agriculture_price_dataset.csv"
+  ]
+}
