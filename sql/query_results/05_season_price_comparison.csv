@@ -1,0 +1,14 @@
+commodity,season,avg_modal_price,avg_price_range,market_entries
+Onion,Kharif,3208.21,648.16,112063
+Onion,Rabi,3060.36,657.7,108179
+Onion,Zaid,1784.09,418.51,78154
+Potato,Kharif,2329.61,376.49,108857
+Potato,Rabi,1908.47,338.78,135097
+Potato,Zaid,1804.44,307.34,83112
+Rice,Zaid,3582.67,284.71,7781
+Tomato,Kharif,5794.07,1258.29,15751
+Tomato,Zaid,2431.22,596.07,10449
+Tomato,Rabi,1972.68,401.04,373
+Wheat,Rabi,2541.57,266.63,26094
+Wheat,Kharif,2390.12,233.54,40905
+Wheat,Zaid,2278.37,252.14,9896

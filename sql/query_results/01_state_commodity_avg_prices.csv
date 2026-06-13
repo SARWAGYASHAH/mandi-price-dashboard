@@ -1,0 +1,111 @@
+state,commodity,avg_modal_price,market_entries
+"Tamil Nadu",Onion,6526.92,26
+Nagaland,Onion,5054.16,757
+Manipur,Onion,4903.6,583
+Tamilnadu,Onion,4706.64,30767
+Kerala,Onion,4684.35,24334
+Tripura,Onion,4402.27,11
+Meghalaya,Onion,4251.02,49
+Bihar,Onion,3824.2,5681
+Orissa,Onion,3238.46,8137
+"Jammu And Kashmir",Onion,3150.91,407
+"Jammu & Kashmir",Onion,3021.93,2364
+"West Bengal",Onion,2967.65,19478
+"Himachal Pradesh",Onion,2927.57,9617
+Chhattisgarh,Onion,2721.4,937
+Chattisgarh,Onion,2466.92,984
+Punjab,Onion,2423.06,18629
+Assam,Onion,2326.89,1468
+Chandigarh,Onion,2290.4,427
+Karnataka,Onion,2278.19,6349
+"Andhra Pradesh",Onion,2272.13,3879
+Delhi,Onion,2249.78,1575
+"Uttar Pradesh",Onion,2216.17,70268
+Haryana,Onion,2192.62,26728
+Maharashtra,Onion,2101.67,26755
+Rajasthan,Onion,2060.3,12210
+Gujarat,Onion,2028.4,8460
+"Madhya Pradesh",Onion,1566.89,17506
+Uttrakhand,Onion,1322.0,10
+Tamilnadu,Potato,4552.11,35785
+Kerala,Potato,4199.88,19297
+Nagaland,Potato,3945.46,2099
+Meghalaya,Potato,3284.43,690
+Manipur,Potato,3004.09,672
+"Andhra Pradesh",Potato,2424.17,5047
+Orissa,Potato,2354.74,11038
+Karnataka,Potato,2230.83,5191
+Chhattisgarh,Potato,2107.78,1057
+Chattisgarh,Potato,1951.62,1202
+Gao,Potato,1950.0,4
+Bihar,Potato,1907.52,6597
+Maharashtra,Potato,1849.67,13518
+"Jammu And Kashmir",Potato,1813.52,477
+"Himachal Pradesh",Potato,1757.09,11336
+Gujarat,Potato,1742.38,10274
+"West Bengal",Potato,1721.33,28535
+"Jammu & Kashmir",Potato,1613.98,2743
+Assam,Potato,1434.86,1956
+Delhi,Potato,1427.69,1562
+Rajasthan,Potato,1358.57,13806
+"Uttar Pradesh",Potato,1357.86,85571
+Chandigarh,Potato,1218.09,470
+Haryana,Potato,1211.09,33638
+"Madhya Pradesh",Potato,1195.72,10076
+Punjab,Potato,1119.09,24400
+Uttrakhand,Potato,1093.2,25
+Delhi,Rice,5525.33,18
+Gujarat,Rice,5509.79,48
+Manipur,Rice,5245.9,61
+Kerala,Rice,4740.79,76
+"Andhra Pradesh",Rice,4608.49,106
+Maharashtra,Rice,4026.26,491
+"West Bengal",Rice,4002.72,2133
+Orissa,Rice,3838.33,60
+Karnataka,Rice,3657.14,355
+"Himachal Pradesh",Rice,3241.79,78
+"Uttar Pradesh",Rice,3229.15,4196
+Assam,Rice,3162.4,96
+Rajasthan,Rice,3126.73,55
+Uttrakhand,Rice,2855.0,8
+Meghalaya,Tomato,9588.73,71
+Nagaland,Tomato,6886.54,156
+Kerala,Tomato,6789.9,1863
+Orissa,Tomato,6619.32,1398
+Bihar,Tomato,6433.33,6
+"West Bengal",Tomato,6142.69,1509
+"Jammu & Kashmir",Tomato,5748.7,192
+Gujarat,Tomato,5090.86,805
+Maharashtra,Tomato,4872.23,1968
+Karnataka,Tomato,4647.35,1414
+"Himachal Pradesh",Tomato,4606.05,1040
+Assam,Tomato,4519.2,119
+"Andhra Pradesh",Tomato,4348.25,562
+Delhi,Tomato,4105.97,134
+Haryana,Tomato,3909.96,2846
+Chandigarh,Tomato,3819.23,52
+"Uttar Pradesh",Tomato,3731.36,7625
+Chattisgarh,Tomato,3444.92,59
+Rajasthan,Tomato,3428.41,1260
+Punjab,Tomato,3066.18,1722
+Chhattisgarh,Tomato,3060.81,74
+"Madhya Pradesh",Tomato,2927.0,1656
+"Jammu And Kashmir",Tomato,2316.29,42
+Kerala,Wheat,4400.0,4
+Karnataka,Wheat,3193.8,1082
+Maharashtra,Wheat,2610.27,9081
+"West Bengal",Wheat,2596.93,2266
+Delhi,Wheat,2532.19,424
+Gujarat,Wheat,2515.98,7062
+Bihar,Wheat,2431.03,170
+"Madhya Pradesh",Wheat,2380.86,26590
+Rajasthan,Wheat,2359.43,8439
+"Uttar Pradesh",Wheat,2353.47,19981
+Assam,Wheat,2341.44,459
+Chhattisgarh,Wheat,2331.43,181
+"Himachal Pradesh",Wheat,2278.27,764
+Haryana,Wheat,2179.43,7
+"Andhra Pradesh",Wheat,2158.27,22
+Uttrakhand,Wheat,2150.0,3
+Chattisgarh,Wheat,2133.86,358
+Punjab,Wheat,2130.0,2

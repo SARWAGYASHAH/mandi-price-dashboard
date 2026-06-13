@@ -1,0 +1,11 @@
+commodity,year,avg_modal_price,previous_year_avg_price,yoy_price_change_pct
+Onion,2023,2494.6,,
+Onion,2024,3211.85,2494.6,28.75
+Onion,2025,2259.74,3211.85,-29.64
+Potato,2023,1402.62,,
+Potato,2024,2394.06,1402.62,70.68
+Potato,2025,1923.12,2394.06,-19.67
+Rice,2025,3582.67,,
+Tomato,2023,4418.1,,
+Wheat,2023,2412.1,,
+Wheat,2024,2539.16,2412.1,5.27
