@@ -1,0 +1,12 @@
+INDIAN AGRICULTURAL MANDI PRICE - AUTOMATED INSIGHTS
+======================================================
+Coverage: 06 June 2023 to 11 June 2025 | 736,711 cleaned market quotes
+
+1. Top price spike: Potato in Tamil Nadu rose 8965.7% in July 2024 versus the prior month, from INR 50 to INR 4,546. Both monthly averages contain at least 30 quotes. The prior-month baseline is below 25% of the commodity's overall median (INR 1,550), so the jump should be reviewed for a possible unit or source-data discontinuity.
+2. Most volatile crop: Onion has the highest coefficient of variation at 83.8%. Its standard deviation is INR 2,331 against an average of INR 2,782, indicating the widest price dispersion relative to its average.
+3. Cheapest state by commodity among states with at least 30 quotes: Onion: Madhya Pradesh (INR 1,567, 17,506 quotes); Potato: Punjab (INR 1,119, 24,400 quotes); Rice: Rajasthan (INR 3,127, 55 quotes); Tomato: Madhya Pradesh (INR 2,927, 1,656 quotes); Wheat: Chhattisgarh (INR 2,200, 539 quotes).
+4. Most expensive established market: Patna (Musallahpur), Bihar, averages INR 44,410 across 31 quotes.
+5. Seasonal pattern: Onion peaks in Kharif at INR 3,208, 79.8% above its Zaid average; Potato peaks in Kharif at INR 2,330, 29.1% above its Zaid average; Rice has observations only in Zaid (INR 3,583), so no cross-season comparison is available; Tomato peaks in Kharif at INR 5,794, 193.7% above its Rabi average; Wheat peaks in Rabi at INR 2,542, 11.6% above its Zaid average.
+6. Anomaly summary: 16,336 records (2.22%) breach the commodity-level two-standard-deviation rule: 16,204 high spikes and 132 low drops. Potato contributes the most flags, and Tamil Nadu has the largest state-level count.
+
+Interpretation note: statistical relationships indicate where to investigate. They do not establish weather, logistics, market power, or policy as causal factors.
