@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="description" content="A production-ready analytics portfolio exploring Indian agricultural mandi prices with Python, SQL, Power BI, and Prophet.">
+  <title>Mandi Intel | Indian Mandi Price Intelligence</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+  <script>
+    tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-dim":"#18120e","surface":"#18120e","on-surface":"#eee0d8","on-surface-variant":"#d8c2b5","primary":"#ffc499","primary-container":"#f4a261","on-primary-container":"#6f3800","secondary":"#6fd8c8","tertiary":"#89dcf2","error":"#ffb4ab","surface-container":"#251e19","surface-container-high":"#302823","surface-container-highest":"#3b332e","outline-variant":"#534439"},spacing:{"stack-sm":"8px","stack-md":"24px","stack-lg":"48px","gutter":"24px","margin-mobile":"16px","container-max":"1280px"},fontFamily:{"body":["Inter"],"mono":["JetBrains Mono"]}}}}
+  </script>
+  <style>body{background:#080c14;color:#eee0d8;overflow-x:hidden;font-family:Inter,system-ui,sans-serif}</style>
+</head>
+<body>
+<!-- Shader Background -->
+<div class="fixed inset-0 -z-10 opacity-50"><canvas id="shader-bg" style="display:block;width:100%;height:100%"></canvas></div>
+<div class="fixed inset-0 -z-10 dot-grid pointer-events-none opacity-30"></div>
+
+<!-- Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-white/5 backdrop-blur-xl border-b border-white/10">
+  <div class="flex justify-between items-center px-6 py-3 max-w-[1280px] mx-auto">
+    <a href="index.html" class="text-2xl font-extrabold tracking-tight text-[#eee0d8] no-underline">Mandi<span class="text-[#f4a261]">Intel</span></a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="index.html" class="text-[#f4a261] font-bold border-b-2 border-[#f4a261] pb-1">Home</a>
+      <a href="dashboard.html" class="text-[#d8c2b5] font-medium hover:text-[#f4a261] transition-colors">Dashboard</a>
+      <a href="insights.html" class="text-[#d8c2b5] font-medium hover:text-[#f4a261] transition-colors">Insights</a>
+      <a href="forecast.html" class="text-[#d8c2b5] font-medium hover:text-[#f4a261] transition-colors">Forecast</a>
+      <a href="about.html" class="text-[#d8c2b5] font-medium hover:text-[#f4a261] transition-colors">About</a>
+    </div>
+    <div class="flex items-center gap-4">
+      <a href="https://github.com/SARWAGYASHAH/mandi-price-dashboard" target="_blank" class="bg-[#f4a261] text-[#6f3800] px-6 py-2 rounded-full font-bold hover:scale-105 active:scale-95 transition-transform primary-glow no-underline hidden sm:inline-block">View Repo →</a>
+      <button id="nav-toggle" class="md:hidden text-[#eee0d8]"><span class="material-symbols-outlined text-3xl">menu</span></button>
+    </div>
+  </div>
+</nav>
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="mobile-menu fixed top-0 right-0 w-72 h-full z-[60] bg-[#18120e]/95 backdrop-blur-xl border-l border-white/10 p-8 flex flex-col gap-6">
+  <button id="nav-close" class="self-end text-[#eee0d8]"><span class="material-symbols-outlined text-3xl">close</span></button>
+  <a href="index.html" class="text-[#f4a261] font-bold text-lg no-underline">Home</a>
+  <a href="dashboard.html" class="text-[#d8c2b5] font-medium text-lg no-underline hover:text-[#f4a261]">Dashboard</a>
+  <a href="insights.html" class="text-[#d8c2b5] font-medium text-lg no-underline hover:text-[#f4a261]">Insights</a>
+  <a href="forecast.html" class="text-[#d8c2b5] font-medium text-lg no-underline hover:text-[#f4a261]">Forecast</a>
+  <a href="about.html" class="text-[#d8c2b5] font-medium text-lg no-underline hover:text-[#f4a261]">About</a>
+</div>
+
+<main class="pt-32">
+
+<!-- ═══ HERO ═══ -->
+<section class="max-w-[1280px] mx-auto px-4 md:px-6 min-h-[70vh] flex flex-col md:flex-row items-center gap-12 reveal">
+  <div class="flex-1 space-y-6">
+    <div class="text-xs font-semibold tracking-[0.2em] text-[#6fd8c8] uppercase bg-[#6fd8c8]/10 px-4 py-1 rounded-full inline-block">Data Analytics Portfolio Project</div>
+    <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.1] text-gradient">
+      Indian mandi prices, turned into decision intelligence.
+    </h1>
+    <p class="text-lg text-[#d8c2b5] max-w-xl leading-relaxed">
+      A reproducible analysis of Onion, Tomato, Potato, Wheat, and Rice prices across 1,597 markets using Python, SQLite, Power BI, anomaly detection, and Prophet forecasting.
+    </p>
+    <div class="flex flex-wrap gap-4 pt-4">
+      <a href="dashboard.html" class="bg-[#f4a261] text-[#6f3800] px-8 py-4 rounded-full font-bold hover:scale-105 active:scale-95 transition-all primary-glow inline-flex items-center gap-2 no-underline">
+        Explore Dashboard <span class="material-symbols-outlined">trending_up</span>
+      </a>
+      <a href="https://github.com/SARWAGYASHAH/mandi-price-dashboard" target="_blank" class="border border-white/20 bg-white/5 backdrop-blur-md px-8 py-4 rounded-full font-bold hover:bg-white/10 transition-all inline-flex items-center gap-2 no-underline text-[#eee0d8]">
+        View Codebase <span class="material-symbols-outlined">code</span>
+      </a>
+    </div>
+  </div>
+  <div class="flex-1 relative w-full flex justify-center">
+    <div class="glass-card w-full max-w-lg rounded-xl overflow-hidden floating p-3">
+      <div class="flex gap-1.5 mb-3 px-1">
+        <div class="w-3 h-3 rounded-full bg-[#FF5F57]"></div>
+        <div class="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
+        <div class="w-3 h-3 rounded-full bg-[#28C840]"></div>
+      </div>
+      <div class="img-zoom"><img src="assets/page2.png" alt="State-wise dashboard preview with India filled map" class="w-full rounded-lg"></div>
+      <p class="text-xs text-[#d8c2b5] mt-3 px-1">Page 2 — State price comparison with India choropleth, state ranking, and anomaly context.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ METRICS ═══ -->
+<section class="max-w-[1280px] mx-auto px-4 md:px-6 py-16 reveal">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+    <div class="glass-card p-8 rounded-xl group">
+      <div class="text-[#6fd8c8] mb-4 group-hover:scale-110 transition-transform"><span class="material-symbols-outlined text-4xl" style="font-variation-settings:'FILL' 1">database</span></div>
+      <div class="text-4xl font-bold mb-1 font-mono counter" data-target="736711">0</div>
+      <div class="text-[#d8c2b5] text-xs font-semibold tracking-[0.1em] uppercase">Cleaned Quotes</div>
+    </div>
+    <div class="glass-card p-8 rounded-xl group">
+      <div class="text-[#f4a261] mb-4 group-hover:scale-110 transition-transform"><span class="material-symbols-outlined text-4xl" style="font-variation-settings:'FILL' 1">map</span></div>
+      <div class="text-4xl font-bold mb-1 font-mono counter" data-target="26">0</div>
+      <div class="text-[#d8c2b5] text-xs font-semibold tracking-[0.1em] uppercase">States &amp; UTs</div>
+    </div>
+    <div class="glass-card p-8 rounded-xl group">
+      <div class="text-[#89dcf2] mb-4 group-hover:scale-110 transition-transform"><span class="material-symbols-outlined text-4xl" style="font-variation-settings:'FILL' 1">agriculture</span></div>
+      <div class="text-4xl font-bold mb-1 font-mono counter" data-target="5">0</div>
+      <div class="text-[#d8c2b5] text-xs font-semibold tracking-[0.1em] uppercase">Target Crops</div>
+    </div>
+    <div class="glass-card p-8 rounded-xl group">
+      <div class="text-[#ffb4ab] mb-4 group-hover:scale-110 transition-transform"><span class="material-symbols-outlined text-4xl" style="font-variation-settings:'FILL' 1">warning</span></div>
+      <div class="text-4xl font-bold mb-1 font-mono counter" data-target="16336">0</div>
+      <div class="text-[#d8c2b5] text-xs font-semibold tracking-[0.1em] uppercase">Anomaly Flags</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROBLEM STATEMENT ═══ -->
+<section class="max-w-[1280px] mx-auto px-4 md:px-6 py-16 reveal">
+  <div class="text-center max-w-3xl mx-auto mb-12">
+    <div class="text-xs font-semibold tracking-[0.2em] text-[#6fd8c8] uppercase mb-3">Problem Statement</div>
+    <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight mb-4">Price data is abundant. Trustworthy signals are not.</h2>
+    <p class="text-[#d8c2b5] text-lg">Mandi quotes vary by crop, market, season, grade, and reporting quality. The project creates one audited analytical layer and carries the same definitions through SQL, Power BI, forecasting, and plain-English insights.</p>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="glass-card p-10 rounded-2xl relative overflow-hidden group">
+      <div class="absolute top-0 right-0 w-32 h-32 bg-[#f4a261]/5 rounded-full -mr-16 -mt-16 blur-3xl group-hover:bg-[#f4a261]/20 transition-all"></div>
+      <span class="material-symbols-outlined text-[#f4a261] text-5xl mb-6">help_center</span>
+      <h3 class="text-2xl font-bold mb-4">The Business Question</h3>
+      <p class="text-[#d8c2b5] leading-relaxed">Where are crops consistently expensive or cheap, when do seasonal price pressures appear, and which quotes deserve immediate investigation?</p>
+    </div>
+    <div class="glass-card p-10 rounded-2xl relative overflow-hidden group">
+      <div class="absolute top-0 right-0 w-32 h-32 bg-[#6fd8c8]/5 rounded-full -mr-16 -mt-16 blur-3xl group-hover:bg-[#6fd8c8]/20 transition-all"></div>
+      <span class="material-symbols-outlined text-[#6fd8c8] text-5xl mb-6">insights</span>
+      <h3 class="text-2xl font-bold mb-4">The Analytical Response</h3>
+      <ul class="text-[#d8c2b5] leading-relaxed space-y-2 list-none p-0">
+        <li class="flex items-start gap-2"><span class="text-[#6fd8c8]">✦</span> Canonical geography and documented quality rules</li>
+        <li class="flex items-start gap-2"><span class="text-[#6fd8c8]">✦</span> Comparable volatility and anomaly measures</li>
+        <li class="flex items-start gap-2"><span class="text-[#6fd8c8]">✦</span> State, market, crop, and season drill-downs</li>
+        <li class="flex items-start gap-2"><span class="text-[#6fd8c8]">✦</span> Leakage-safe chronological forecast validation</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TOOLCHAIN ═══ -->
+<section class="max-w-[1280px] mx-auto px-4 md:px-6 py-16 reveal">
+  <div class="text-center max-w-3xl mx-auto mb-12">
+    <div class="text-xs font-semibold tracking-[0.2em] text-[#6fd8c8] uppercase mb-3">Toolchain</div>
+    <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight">Built as a complete analytics workflow.</h2>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="glass-card p-8 rounded-xl group">
+      <div class="w-12 h-12 rounded-xl bg-[#f4a261]/12 grid place-items-center text-[#f4a261] font-extrabold mb-4 group-hover:shadow-[0_0_15px_rgba(244,162,97,0.3)] transition-shadow">Py</div>
+      <h3 class="text-xl font-bold mb-2">Python</h3>
+      <p class="text-[#d8c2b5] text-sm">Pandas cleaning, anomaly reports, automated insight generation, and chart exports.</p>
+    </div>
+    <div class="glass-card p-8 rounded-xl group">
+      <div class="w-12 h-12 rounded-xl bg-[#6fd8c8]/12 grid place-items-center text-[#6fd8c8] font-extrabold mb-4 group-hover:shadow-[0_0_15px_rgba(111,216,200,0.3)] transition-shadow">SQL</div>
+      <h3 class="text-xl font-bold mb-2">SQLite</h3>
+      <p class="text-[#d8c2b5] text-sm">Typed fact table, indexed dimensions, rankings, trends, and reproducible CSV results.</p>
+    </div>
+    <div class="glass-card p-8 rounded-xl group">
+      <div class="w-12 h-12 rounded-xl bg-[#89dcf2]/12 grid place-items-center text-[#89dcf2] font-extrabold mb-4 group-hover:shadow-[0_0_15px_rgba(137,220,242,0.3)] transition-shadow">BI</div>
+      <h3 class="text-xl font-bold mb-2">Power BI</h3>
+      <p class="text-[#d8c2b5] text-sm">Date model, documented DAX, four-page blueprint, and data-backed visual previews.</p>
+    </div>
+    <div class="glass-card p-8 rounded-xl group">
+      <div class="w-12 h-12 rounded-xl bg-[#ffb4ab]/12 grid place-items-center text-[#ffb4ab] font-extrabold mb-4 group-hover:shadow-[0_0_15px_rgba(255,180,171,0.3)] transition-shadow">Pr</div>
+      <h3 class="text-xl font-bold mb-2">Prophet</h3>
+      <p class="text-[#d8c2b5] text-sm">90-day Onion and Tomato baselines with strict chronological holdout metrics.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ QUICK FINDINGS ═══ -->
+<section class="max-w-[1280px] mx-auto px-4 md:px-6 py-16 reveal">
+  <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+    <div>
+      <div class="text-xs font-semibold tracking-[0.2em] text-[#6fd8c8] uppercase mb-3">Key Findings</div>
+      <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Five signals worth investigating.</h2>
+    </div>
+    <a href="insights.html" class="text-[#f4a261] font-bold hover:underline no-underline inline-flex items-center gap-1">See all findings <span class="material-symbols-outlined text-lg">arrow_forward</span></a>
+  </div>
+  <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+    <div class="glass-panel p-6 rounded-xl">
+      <div class="text-3xl font-extrabold text-[#f4a261] mb-2 font-mono">83.81%</div>
+      <p class="text-[#d8c2b5] text-sm">Onion has the highest coefficient of variation.</p>
+    </div>
+    <div class="glass-panel p-6 rounded-xl">
+      <div class="text-3xl font-extrabold text-[#f4a261] mb-2 font-mono">193.7%</div>
+      <p class="text-[#d8c2b5] text-sm">Tomato's Kharif average exceeds Rabi by this margin.</p>
+    </div>
+    <div class="glass-panel p-6 rounded-xl">
+      <div class="text-3xl font-extrabold text-[#f4a261] mb-2 font-mono">2.22%</div>
+      <p class="text-[#d8c2b5] text-sm">Of cleaned records breach the two-standard-deviation rule.</p>
+    </div>
+    <div class="glass-panel p-6 rounded-xl">
+      <div class="text-3xl font-extrabold text-[#f4a261] mb-2 font-mono">9,646</div>
+      <p class="text-[#d8c2b5] text-sm">Potato contributes the largest commodity anomaly count.</p>
+    </div>
+    <div class="glass-panel p-6 rounded-xl">
+      <div class="text-3xl font-extrabold text-[#f4a261] mb-2 font-mono">1,246</div>
+      <p class="text-[#d8c2b5] text-sm">Quotes place modal price outside the stated min-max range.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="max-w-[1280px] mx-auto px-4 md:px-6 py-16 reveal">
+  <div class="glow-border p-10 md:p-16 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-8 bg-gradient-to-r from-[#f4a261]/5 to-[#6fd8c8]/5">
+    <div>
+      <div class="text-xs font-semibold tracking-[0.2em] text-[#6fd8c8] uppercase mb-3">Source, Methods, and Code</div>
+      <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Every number is reproducible.</h2>
+    </div>
+    <a href="https://github.com/SARWAGYASHAH/mandi-price-dashboard" target="_blank" class="bg-[#f4a261] text-[#6f3800] px-8 py-4 rounded-full font-bold hover:scale-105 active:scale-95 transition-transform primary-glow no-underline whitespace-nowrap inline-flex items-center gap-2">
+      Open GitHub Repository <span class="material-symbols-outlined">arrow_forward</span>
+    </a>
+  </div>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer class="border-t border-white/10 mt-16">
+  <div class="flex flex-col md:flex-row justify-between items-center px-6 py-8 max-w-[1280px] mx-auto gap-4">
+    <span class="text-[#eee0d8] font-bold">Built by Sarwagya Shah</span>
+    <div class="flex gap-6 text-xs font-semibold tracking-[0.1em] uppercase text-[#d8c2b5]">
+      <a href="index.html" class="hover:text-[#6fd8c8] transition-colors no-underline">Home</a>
+      <a href="dashboard.html" class="hover:text-[#6fd8c8] transition-colors no-underline">Dashboard</a>
+      <a href="insights.html" class="hover:text-[#6fd8c8] transition-colors no-underline">Insights</a>
+      <a href="forecast.html" class="hover:text-[#6fd8c8] transition-colors no-underline">Forecast</a>
+      <a href="about.html" class="hover:text-[#6fd8c8] transition-colors no-underline">About</a>
+    </div>
+    <span class="text-[#d8c2b5] text-sm">Python · SQLite · Power BI · Prophet</span>
+  </div>
+</footer>
+
+<script src="shared.js"></script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="description" content="Prophet time series forecasts for Onion and Tomato prices with chronological holdout evaluation.">
+  <title>Forecast | Mandi Intel</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+  <script>
+    tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-dim":"#18120e","surface":"#18120e","on-surface":"#eee0d8","on-surface-variant":"#d8c2b5","primary":"#ffc499","primary-container":"#f4a261","on-primary-container":"#6f3800","secondary":"#6fd8c8","tertiary":"#89dcf2","error":"#ffb4ab","surface-container":"#251e19","surface-container-high":"#302823","surface-container-highest":"#3b332e","outline-variant":"#534439"},spacing:{"stack-sm":"8px","stack-md":"24px","stack-lg":"48px","gutter":"24px","margin-mobile":"16px","container-max":"1280px"},fontFamily:{"body":["Inter"],"mono":["JetBrains Mono"]}}}}
+  </script>
+  <style>body{background:#080c14;color:#eee0d8;overflow-x:hidden;font-family:Inter,system-ui,sans-serif}</style>
+</head>
+<body>
+<div class="fixed inset-0 -z-10 opacity-50"><canvas id="shader-bg" style="display:block;width:100%;height:100%"></canvas></div>
+<div class="fixed inset-0 -z-10 dot-grid pointer-events-none opacity-30"></div>
+
+<!-- Nav -->
+<nav class="fixed top-0 w-full z-50 bg-white/5 backdrop-blur-xl border-b border-white/10">
+  <div class="flex justify-between items-center px-6 py-3 max-w-[1280px] mx-auto">
+    <a href="index.html" class="text-2xl font-extrabold tracking-tight text-[#eee0d8] no-underline">Mandi<span class="text-[#f4a261]">Intel</span></a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="index.html" class="text-[#d8c2b5] font-medium hover:text-[#f4a261] transition-colors">Home</a>
+      <a href="dashboard.html" class="text-[#d8c2b5] font-medium hover:text-[#f4a261] transition-colors">Dashboard</a>
+      <a href="insights.html" class="text-[#d8c2b5] font-medium hover:text-[#f4a261] transition-colors">Insights</a>
+      <a href="forecast.html" class="text-[#f4a261] font-bold border-b-2 border-[#f4a261] pb-1">Forecast</a>
+      <a href="about.html" class="text-[#d8c2b5] font-medium hover:text-[#f4a261] transition-colors">About</a>
+    </div>
+    <div class="flex items-center gap-4">
+      <a href="https://github.com/SARWAGYASHAH/mandi-price-dashboard" target="_blank" class="bg-[#f4a261] text-[#6f3800] px-6 py-2 rounded-full font-bold hover:scale-105 transition-transform primary-glow no-underline hidden sm:inline-block">View Repo →</a>
+      <button id="nav-toggle" class="md:hidden text-[#eee0d8]"><span class="material-symbols-outlined text-3xl">menu</span></button>
+    </div>
+  </div>
+</nav>
+<div id="mobile-menu" class="mobile-menu fixed top-0 right-0 w-72 h-full z-[60] bg-[#18120e]/95 backdrop-blur-xl border-l border-white/10 p-8 flex flex-col gap-6">
+  <button id="nav-close" class="self-end text-[#eee0d8]"><span class="material-symbols-outlined text-3xl">close</span></button>
+  <a href="index.html" class="text-[#d8c2b5] font-medium text-lg no-underline">Home</a>
+  <a href="dashboard.html" class="text-[#d8c2b5] font-medium text-lg no-underline">Dashboard</a>
+  <a href="insights.html" class="text-[#d8c2b5] font-medium text-lg no-underline">Insights</a>
+  <a href="forecast.html" class="text-[#f4a261] font-bold text-lg no-underline">Forecast</a>
+  <a href="about.html" class="text-[#d8c2b5] font-medium text-lg no-underline">About</a>
+</div>
+
+<main class="pt-32 max-w-[1280px] mx-auto px-4 md:px-6 pb-16">
+
+<!-- Header -->
+<header class="mb-16 reveal">
+  <div class="flex items-center gap-2 mb-3">
+    <span class="w-12 h-[1px] bg-[#f4a261]"></span>
+    <span class="text-xs font-semibold tracking-[0.2em] text-[#6fd8c8] uppercase">Time Series Forecasting</span>
+  </div>
+  <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">Useful baseline, honest uncertainty.</h1>
+  <p class="text-[#d8c2b5] text-lg max-w-2xl">Prophet is evaluated chronologically and forecasts the national daily median modal price. High errors are reported as model limitations, not polished away.</p>
+</header>
+
+<!-- ═══ METHODOLOGY ═══ -->
+<section class="mb-16 reveal">
+  <h2 class="text-2xl font-bold mb-8 flex items-center gap-3"><span class="material-symbols-outlined text-[#6fd8c8]">account_tree</span> Methodology Pipeline</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="glass-panel p-6 rounded-xl flex items-start gap-4">
+      <div class="w-10 h-10 rounded-lg bg-[#f4a261]/12 grid place-items-center text-[#f4a261] font-bold font-mono shrink-0">1</div>
+      <div>
+        <h3 class="font-bold mb-1">Aggregate</h3>
+        <p class="text-[#d8c2b5] text-sm">Market quotes → national daily median modal price per commodity</p>
+      </div>
+    </div>
+    <div class="glass-panel p-6 rounded-xl flex items-start gap-4">
+      <div class="w-10 h-10 rounded-lg bg-[#f4a261]/12 grid place-items-center text-[#f4a261] font-bold font-mono shrink-0">2</div>
+      <div>
+        <h3 class="font-bold mb-1">Fill Gaps</h3>
+        <p class="text-[#d8c2b5] text-sm">Calendar-complete time axis with time-based interpolation</p>
+      </div>
+    </div>
+    <div class="glass-panel p-6 rounded-xl flex items-start gap-4">
+      <div class="w-10 h-10 rounded-lg bg-[#f4a261]/12 grid place-items-center text-[#f4a261] font-bold font-mono shrink-0">3</div>
+      <div>
+        <h3 class="font-bold mb-1">Configure</h3>
+        <p class="text-[#d8c2b5] text-sm">Prophet with weekly + yearly seasonality, multiplicative mode</p>
+      </div>
+    </div>
+    <div class="glass-panel p-6 rounded-xl flex items-start gap-4">
+      <div class="w-10 h-10 rounded-lg bg-[#6fd8c8]/12 grid place-items-center text-[#6fd8c8] font-bold font-mono shrink-0">4</div>
+      <div>
+        <h3 class="font-bold mb-1">Evaluate</h3>
+        <p class="text-[#d8c2b5] text-sm">Chronological holdout — last 90 days for Onion, 31 for Tomato</p>
+      </div>
+    </div>
+    <div class="glass-panel p-6 rounded-xl flex items-start gap-4">
+      <div class="w-10 h-10 rounded-lg bg-[#6fd8c8]/12 grid place-items-center text-[#6fd8c8] font-bold font-mono shrink-0">5</div>
+      <div>
+        <h3 class="font-bold mb-1">Refit</h3>
+        <p class="text-[#d8c2b5] text-sm">Train on all observations, produce final 90-day forecast</p>
+      </div>
+    </div>
+    <div class="glass-panel p-6 rounded-xl flex items-start gap-4">
+      <div class="w-10 h-10 rounded-lg bg-[#6fd8c8]/12 grid place-items-center text-[#6fd8c8] font-bold font-mono shrink-0">6</div>
+      <div>
+        <h3 class="font-bold mb-1">Export</h3>
+        <p class="text-[#d8c2b5] text-sm">CSV results + publication-quality PNG forecast charts</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FORECAST RESULTS ═══ -->
+<section class="space-y-12 mb-16">
+
+  <!-- Onion -->
+  <article class="glass-card rounded-2xl overflow-hidden reveal">
+    <div class="img-zoom"><img src="assets/onion_forecast.png" alt="Onion 90-day Prophet forecast chart" class="w-full" loading="lazy"></div>
+    <div class="p-8">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+        <h2 class="text-2xl font-bold flex items-center gap-3">
+          <span class="material-symbols-outlined text-[#f4a261]">show_chart</span>
+          Onion — 90 Day Forecast
+        </h2>
+        <span class="text-xs font-semibold tracking-[0.1em] text-[#d8c2b5] uppercase">Holdout: 90 obs · 14 Mar 2025 – 11 Jun 2025</span>
+      </div>
+      <div class="flex flex-wrap gap-4 mb-4">
+        <div class="bg-[#f4a261]/10 border border-[#f4a261]/30 px-4 py-2 rounded-lg text-center">
+          <div class="text-xs text-[#d8c2b5] uppercase font-semibold mb-1">MAE</div>
+          <div class="text-xl font-bold font-mono text-[#f4a261]">₹1,274.95</div>
+        </div>
+        <div class="bg-[#6fd8c8]/10 border border-[#6fd8c8]/30 px-4 py-2 rounded-lg text-center">
+          <div class="text-xs text-[#d8c2b5] uppercase font-semibold mb-1">RMSE</div>
+          <div class="text-xl font-bold font-mono text-[#6fd8c8]">₹1,350.87</div>
+        </div>
+        <div class="bg-[#89dcf2]/10 border border-[#89dcf2]/30 px-4 py-2 rounded-lg text-center">
+          <div class="text-xs text-[#d8c2b5] uppercase font-semibold mb-1">MAPE</div>
+          <div class="text-xl font-bold font-mono text-[#89dcf2]">86.52%</div>
+        </div>
+      </div>
+      <p class="text-[#d8c2b5] text-sm">High MAPE reflects Onion's extreme price volatility (CV 83.8%). The model captures directional trend and weekly seasonality but cannot predict supply shocks.</p>
+    </div>
+  </article>
+
+  <!-- Tomato -->
+  <article class="glass-card rounded-2xl overflow-hidden reveal">
+    <div class="img-zoom"><img src="assets/tomato_forecast.png" alt="Tomato 90-day Prophet forecast chart" class="w-full" loading="lazy"></div>
+    <div class="p-8">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+        <h2 class="text-2xl font-bold flex items-center gap-3">
+          <span class="material-symbols-outlined text-[#ffb4ab]">show_chart</span>
+          Tomato — 90 Day Forecast
+        </h2>
+        <span class="text-xs font-semibold tracking-[0.1em] text-[#d8c2b5] uppercase">Holdout: 31 obs · 7 Oct 2023 – 6 Nov 2023</span>
+      </div>
+      <div class="flex flex-wrap gap-4 mb-4">
+        <div class="bg-[#f4a261]/10 border border-[#f4a261]/30 px-4 py-2 rounded-lg text-center">
+          <div class="text-xs text-[#d8c2b5] uppercase font-semibold mb-1">MAE</div>
+          <div class="text-xl font-bold font-mono text-[#f4a261]">₹1,087.84</div>
+        </div>
+        <div class="bg-[#6fd8c8]/10 border border-[#6fd8c8]/30 px-4 py-2 rounded-lg text-center">
+          <div class="text-xs text-[#d8c2b5] uppercase font-semibold mb-1">RMSE</div>
+          <div class="text-xl font-bold font-mono text-[#6fd8c8]">₹1,185.04</div>
+        </div>
+        <div class="bg-[#89dcf2]/10 border border-[#89dcf2]/30 px-4 py-2 rounded-lg text-center">
+          <div class="text-xs text-[#d8c2b5] uppercase font-semibold mb-1">MAPE</div>
+          <div class="text-xl font-bold font-mono text-[#89dcf2]">74.84%</div>
+        </div>
+      </div>
+      <div class="bg-[#f4a261]/8 border border-[#f4a261]/20 rounded-lg p-4 flex items-start gap-3 mb-3">
+        <span class="material-symbols-outlined text-[#f4a261]">warning</span>
+        <p class="text-[#d8c2b5] text-sm"><strong class="text-[#f4a261]">Coverage note:</strong> Tomato data ends 6 Nov 2023. This projection is retained as a historical modeling artifact and should not be used for current decisions.</p>
+      </div>
+    </div>
+  </article>
+
+</section>
+
+<!-- ═══ HONESTY CALLOUT ═══ -->
+<section class="reveal">
+  <div class="glass-panel p-8 rounded-xl border-l-4 border-[#6fd8c8]">
+    <div class="flex items-start gap-4">
+      <span class="material-symbols-outlined text-[#6fd8c8] text-3xl">info</span>
+      <div>
+        <h3 class="font-bold text-lg mb-2">Honest Uncertainty</h3>
+        <p class="text-[#d8c2b5] leading-relaxed">These forecasts are analytical baselines, not trading advice. Weather, arrivals, policy changes, storage conditions, and market closures should be factored in before any operational deployment. High MAPE values are reported transparently as model limitations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="border-t border-white/10 mt-16">
+  <div class="flex flex-col md:flex-row justify-between items-center px-6 py-8 max-w-[1280px] mx-auto gap-4">
+    <span class="text-[#eee0d8] font-bold">Built by Sarwagya Shah</span>
+    <div class="flex gap-6 text-xs font-semibold tracking-[0.1em] uppercase text-[#d8c2b5]">
+      <a href="index.html" class="hover:text-[#6fd8c8] transition-colors no-underline">Home</a>
+      <a href="dashboard.html" class="hover:text-[#6fd8c8] transition-colors no-underline">Dashboard</a>
+      <a href="insights.html" class="hover:text-[#6fd8c8] transition-colors no-underline">Insights</a>
+      <a href="forecast.html" class="hover:text-[#6fd8c8] transition-colors no-underline">Forecast</a>
+      <a href="about.html" class="hover:text-[#6fd8c8] transition-colors no-underline">About</a>
+    </div>
+    <span class="text-[#d8c2b5] text-sm">Python · SQLite · Power BI · Prophet</span>
+  </div>
+</footer>
+<script src="shared.js"></script>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="description" content="Key findings, automated insights, and anomaly detection results from the Indian mandi price analysis.">
+  <title>Insights | Mandi Intel</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+  <script>
+    tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-dim":"#18120e","surface":"#18120e","on-surface":"#eee0d8","on-surface-variant":"#d8c2b5","primary":"#ffc499","primary-container":"#f4a261","on-primary-container":"#6f3800","secondary":"#6fd8c8","tertiary":"#89dcf2","error":"#ffb4ab","surface-container":"#251e19","surface-container-high":"#302823","surface-container-highest":"#3b332e","outline-variant":"#534439"},spacing:{"stack-sm":"8px","stack-md":"24px","stack-lg":"48px","gutter":"24px","margin-mobile":"16px","container-max":"1280px"},fontFamily:{"body":["Inter"],"mono":["JetBrains Mono"]}}}}
+  </script>
+  <style>body{background:#080c14;color:#eee0d8;overflow-x:hidden;font-family:Inter,system-ui,sans-serif}</style>
+</head>
+<body>
+<div class="fixed inset-0 -z-10 opacity-50"><canvas id="shader-bg" style="display:block;width:100%;height:100%"></canvas></div>
+<div class="fixed inset-0 -z-10 dot-grid pointer-events-none opacity-30"></div>
+
+<!-- Nav -->
+<nav class="fixed top-0 w-full z-50 bg-white/5 backdrop-blur-xl border-b border-white/10">
+  <div class="flex justify-between items-center px-6 py-3 max-w-[1280px] mx-auto">
+    <a href="index.html" class="text-2xl font-extrabold tracking-tight text-[#eee0d8] no-underline">Mandi<span class="text-[#f4a261]">Intel</span></a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="index.html" class="text-[#d8c2b5] font-medium hover:text-[#f4a261] transition-colors">Home</a>
+      <a href="dashboard.html" class="text-[#d8c2b5] font-medium hover:text-[#f4a261] transition-colors">Dashboard</a>
+      <a href="insights.html" class="text-[#f4a261] font-bold border-b-2 border-[#f4a261] pb-1">Insights</a>
+      <a href="forecast.html" class="text-[#d8c2b5] font-medium hover:text-[#f4a261] transition-colors">Forecast</a>
+      <a href="about.html" class="text-[#d8c2b5] font-medium hover:text-[#f4a261] transition-colors">About</a>
+    </div>
+    <div class="flex items-center gap-4">
+      <a href="https://github.com/SARWAGYASHAH/mandi-price-dashboard" target="_blank" class="bg-[#f4a261] text-[#6f3800] px-6 py-2 rounded-full font-bold hover:scale-105 transition-transform primary-glow no-underline hidden sm:inline-block">View Repo →</a>
+      <button id="nav-toggle" class="md:hidden text-[#eee0d8]"><span class="material-symbols-outlined text-3xl">menu</span></button>
+    </div>
+  </div>
+</nav>
+<div id="mobile-menu" class="mobile-menu fixed top-0 right-0 w-72 h-full z-[60] bg-[#18120e]/95 backdrop-blur-xl border-l border-white/10 p-8 flex flex-col gap-6">
+  <button id="nav-close" class="self-end text-[#eee0d8]"><span class="material-symbols-outlined text-3xl">close</span></button>
+  <a href="index.html" class="text-[#d8c2b5] font-medium text-lg no-underline">Home</a>
+  <a href="dashboard.html" class="text-[#d8c2b5] font-medium text-lg no-underline">Dashboard</a>
+  <a href="insights.html" class="text-[#f4a261] font-bold text-lg no-underline">Insights</a>
+  <a href="forecast.html" class="text-[#d8c2b5] font-medium text-lg no-underline">Forecast</a>
+  <a href="about.html" class="text-[#d8c2b5] font-medium text-lg no-underline">About</a>
+</div>
+
+<main class="pt-32 max-w-[1280px] mx-auto px-4 md:px-6 pb-16">
+
+<!-- Header -->
+<header class="mb-16 reveal">
+  <div class="flex items-center gap-2 mb-3">
+    <span class="w-12 h-[1px] bg-[#f4a261]"></span>
+    <span class="text-xs font-semibold tracking-[0.2em] text-[#6fd8c8] uppercase">Data-Driven Insights</span>
+  </div>
+  <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">What the numbers reveal.</h1>
+  <p class="text-[#d8c2b5] text-lg max-w-2xl">Statistical patterns identify where to look — not why it happened. Every finding is backed by at least 30 observations.</p>
+</header>
+
+<!-- ═══ KEY FINDINGS ═══ -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+
+  <div class="glass-panel p-8 rounded-xl hover:-translate-y-1 transition-all duration-300 reveal border-l-4 border-[#f4a261]">
+    <div class="flex justify-between items-start mb-4">
+      <span class="material-symbols-outlined text-[#f4a261] text-3xl">trending_up</span>
+      <span class="bg-[#f4a261]/10 text-[#f4a261] text-xs px-2 py-1 rounded font-mono">VOLATILITY</span>
+    </div>
+    <h3 class="text-xl font-bold mb-2">Onion Is Most Volatile</h3>
+    <div class="text-4xl font-mono font-bold text-[#f4a261] mb-4 counter" data-target="83.81" data-suffix="%" data-decimals="2">0</div>
+    <p class="text-[#d8c2b5] text-sm leading-relaxed">Coefficient of variation of 83.81%. Mean modal price ₹2,782 with standard deviation ₹2,331. Kharif average is 79.8% above Zaid.</p>
+  </div>
+
+  <div class="glass-panel p-8 rounded-xl hover:-translate-y-1 transition-all duration-300 reveal border-l-4 border-[#6fd8c8]">
+    <div class="flex justify-between items-start mb-4">
+      <span class="material-symbols-outlined text-[#6fd8c8] text-3xl">location_on</span>
+      <span class="bg-[#6fd8c8]/10 text-[#6fd8c8] text-xs px-2 py-1 rounded font-mono">SOURCING</span>
+    </div>
+    <h3 class="text-xl font-bold mb-2">Cheapest State Is Crop-Specific</h3>
+    <div class="text-4xl font-mono font-bold text-[#6fd8c8] mb-4">₹1,567</div>
+    <p class="text-[#d8c2b5] text-sm leading-relaxed">MP cheapest for Onion (₹1,567) and Tomato (₹2,927). Punjab for Potato (₹1,119), Rajasthan for Rice (₹3,127), Chhattisgarh for Wheat (₹2,200).</p>
+  </div>
+
+  <div class="glass-panel p-8 rounded-xl hover:-translate-y-1 transition-all duration-300 reveal border-l-4 border-[#89dcf2]">
+    <div class="flex justify-between items-start mb-4">
+      <span class="material-symbols-outlined text-[#89dcf2] text-3xl">wb_sunny</span>
+      <span class="bg-[#89dcf2]/10 text-[#89dcf2] text-xs px-2 py-1 rounded font-mono">SEASONAL</span>
+    </div>
+    <h3 class="text-xl font-bold mb-2">Perishables Hit Hardest</h3>
+    <div class="text-4xl font-mono font-bold text-[#89dcf2] mb-4 counter" data-target="193.7" data-suffix="%" data-decimals="1">0</div>
+    <p class="text-[#d8c2b5] text-sm leading-relaxed">Tomato Kharif average ₹5,794 is 193.7% above Rabi ₹1,973. Onion and Potato also peak in Kharif. Wheat peaks in Rabi.</p>
+  </div>
+
+  <div class="glass-panel p-8 rounded-xl hover:-translate-y-1 transition-all duration-300 reveal border-l-4 border-[#f4a261]">
+    <div class="flex justify-between items-start mb-4">
+      <span class="material-symbols-outlined text-[#f4a261] text-3xl">scatter_plot</span>
+      <span class="bg-[#f4a261]/10 text-[#f4a261] text-xs px-2 py-1 rounded font-mono">DATA QUALITY</span>
+    </div>
+    <h3 class="text-xl font-bold mb-2">Extreme Market Dispersion</h3>
+    <div class="text-4xl font-mono font-bold text-[#f4a261] mb-4">₹44,410</div>
+    <p class="text-[#d8c2b5] text-sm leading-relaxed">Patna (Musallahpur) averages ₹44,410 across 31 records vs overall ₹2,475 average. Requires unit consistency and grade review.</p>
+  </div>
+
+  <div class="glow-border p-8 rounded-xl hover:-translate-y-1 transition-all duration-300 reveal lg:col-span-2">
+    <div class="flex justify-between items-start mb-4">
+      <div class="flex gap-3 items-center">
+        <span class="material-symbols-outlined text-[#ffb4ab] text-3xl">warning</span>
+        <h3 class="text-xl font-bold">Anomaly Clusters Are Red Flags</h3>
+      </div>
+      <span class="bg-[#ffb4ab]/15 text-[#ffb4ab] text-xs px-2 py-1 rounded font-mono">16,336 FLAGS</span>
+    </div>
+    <div class="flex flex-col md:flex-row gap-8 items-start">
+      <div class="text-5xl font-mono font-bold text-[#eee0d8] counter" data-target="16336">0</div>
+      <p class="text-[#d8c2b5] text-sm leading-relaxed">Records flagged by the two-standard-deviation rule: 16,204 high spikes and 132 low drops. Potato contributes 9,646 flags. Tamil Nadu has the largest state-level count at 9,085. November has the highest monthly count at 3,428. A flag is a review signal, not proof of manipulation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ AUTOMATED INSIGHTS TERMINAL ═══ -->
+<section class="mb-16 reveal">
+  <h2 class="text-2xl font-bold mb-6 flex items-center gap-3"><span class="material-symbols-outlined text-[#6fd8c8]">terminal</span> Machine-Generated Insights</h2>
+  <div class="terminal-panel rounded-xl overflow-hidden shadow-2xl">
+    <div class="bg-[#302823] px-4 py-2 flex items-center justify-between border-b border-white/10">
+      <div class="flex gap-2">
+        <div class="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
+        <div class="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
+        <div class="w-3 h-3 rounded-full bg-[#27C93F]"></div>
+      </div>
+      <span class="text-[#d8c2b5] font-mono text-xs">python scripts/automated_insights.py</span>
+      <div class="w-12"></div>
+    </div>
+    <div class="p-6 font-mono text-sm leading-relaxed space-y-4">
+      <div><span class="text-[#6fd8c8]">1.</span> <span class="text-[#eee0d8]">Top price spike: Potato in Tamil Nadu rose 8965.7% in July 2024 versus the prior month, from ₹50 to ₹4,546. The prior-month baseline is below 25% of the commodity median (₹1,550) — review for unit or source-data discontinuity.</span></div>
+      <div><span class="text-[#6fd8c8]">2.</span> <span class="text-[#eee0d8]">Most volatile crop: Onion has the highest coefficient of variation at 83.8%. Std deviation ₹2,331 against an average of ₹2,782.</span></div>
+      <div><span class="text-[#6fd8c8]">3.</span> <span class="text-[#eee0d8]">Cheapest state by commodity (≥30 quotes): Onion — MP (₹1,567); Potato — Punjab (₹1,119); Rice — Rajasthan (₹3,127); Tomato — MP (₹2,927); Wheat — Chhattisgarh (₹2,200).</span></div>
+      <div><span class="text-[#6fd8c8]">4.</span> <span class="text-[#eee0d8]">Most expensive market: Patna (Musallahpur), Bihar, averages ₹44,410 across 31 quotes.</span></div>
+      <div><span class="text-[#6fd8c8]">5.</span> <span class="text-[#eee0d8]">Seasonal: Onion peaks Kharif at ₹3,208 (79.8% above Zaid); Tomato peaks Kharif at ₹5,794 (193.7% above Rabi); Wheat peaks Rabi at ₹2,542.</span></div>
+      <div><span class="text-[#f4a261]">6.</span> <span class="text-[#eee0d8]">Anomaly summary: 16,336 records (2.22%) breach the two-std-deviation rule — 16,204 high spikes, 132 low drops. Potato and Tamil Nadu lead.</span></div>
+      <div class="text-[#d8c2b5] italic pt-2 border-t border-white/5">Interpretation note: statistical relationships indicate where to investigate. They do not establish causal factors.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ANOMALY TABLES ═══ -->
+<section class="space-y-8 reveal">
+  <h2 class="text-2xl font-bold flex items-center gap-3"><span class="material-symbols-outlined text-[#ffb4ab]">bug_report</span> Anomaly Detection Summary</h2>
+
+  <!-- Summary Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="glass-panel p-6 rounded-lg border-l-4 border-[#ffb4ab]">
+      <div class="text-xs font-semibold tracking-[0.1em] text-[#ffb4ab] uppercase mb-1">Total Flagged</div>
+      <div class="text-3xl font-bold font-mono">16,336</div>
+      <div class="text-[#d8c2b5] text-sm">of 736,711 records</div>
+    </div>
+    <div class="glass-panel p-6 rounded-lg border-l-4 border-[#f4a261]">
+      <div class="text-xs font-semibold tracking-[0.1em] text-[#f4a261] uppercase mb-1">High Price Spikes</div>
+      <div class="text-3xl font-bold font-mono">16,204</div>
+      <div class="text-[#d8c2b5] text-sm">&gt;2 std dev above mean</div>
+    </div>
+    <div class="glass-panel p-6 rounded-lg border-l-4 border-[#6fd8c8]">
+      <div class="text-xs font-semibold tracking-[0.1em] text-[#6fd8c8] uppercase mb-1">Low Price Drops</div>
+      <div class="text-3xl font-bold font-mono">132</div>
+      <div class="text-[#d8c2b5] text-sm">&gt;2 std dev below mean</div>
+    </div>
+  </div>
+
+  <!-- Commodity Table -->
+  <div class="glass-panel rounded-xl overflow-hidden">
+    <div class="p-6 border-b border-white/10">
+      <h3 class="text-xl font-bold">Commodity Concentration</h3>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left font-mono text-sm">
+        <thead class="bg-[#302823] text-[#d8c2b5] uppercase text-xs">
+          <tr><th class="px-6 py-4">Commodity</th><th class="px-6 py-4">Anomalies</th><th class="px-6 py-4">Anomaly Rate</th></tr>
+        </thead>
+        <tbody class="divide-y divide-white/5">
+          <tr class="hover:bg-white/5 transition-colors"><td class="px-6 py-4 font-bold text-[#eee0d8]">Potato</td><td class="px-6 py-4">9,646</td><td class="px-6 py-4 text-[#f4a261]">2.95%</td></tr>
+          <tr class="hover:bg-white/5 transition-colors"><td class="px-6 py-4 font-bold text-[#eee0d8]">Onion</td><td class="px-6 py-4">3,213</td><td class="px-6 py-4 text-[#6fd8c8]">1.08%</td></tr>
+          <tr class="hover:bg-white/5 transition-colors"><td class="px-6 py-4 font-bold text-[#eee0d8]">Wheat</td><td class="px-6 py-4">2,249</td><td class="px-6 py-4 text-[#f4a261]">2.92%</td></tr>
+          <tr class="hover:bg-white/5 transition-colors"><td class="px-6 py-4 font-bold text-[#eee0d8]">Tomato</td><td class="px-6 py-4">813</td><td class="px-6 py-4 text-[#f4a261]">3.06%</td></tr>
+          <tr class="hover:bg-white/5 transition-colors"><td class="px-6 py-4 font-bold text-[#eee0d8]">Rice</td><td class="px-6 py-4">415</td><td class="px-6 py-4 text-[#ffb4ab]">5.33%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- State Table -->
+  <div class="glass-panel rounded-xl overflow-hidden">
+    <div class="p-6 border-b border-white/10">
+      <h3 class="text-xl font-bold">Top 5 States by Anomaly Count</h3>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left font-mono text-sm">
+        <thead class="bg-[#302823] text-[#d8c2b5] uppercase text-xs">
+          <tr><th class="px-6 py-4">State</th><th class="px-6 py-4">Anomalies</th><th class="px-6 py-4">Anomaly Rate</th></tr>
+        </thead>
+        <tbody class="divide-y divide-white/5">
+          <tr class="hover:bg-white/5 transition-colors"><td class="px-6 py-4 font-bold text-[#eee0d8]">Tamil Nadu</td><td class="px-6 py-4">9,085</td><td class="px-6 py-4 text-[#ffb4ab]">13.65%</td></tr>
+          <tr class="hover:bg-white/5 transition-colors"><td class="px-6 py-4 font-bold text-[#eee0d8]">Kerala</td><td class="px-6 py-4">3,482</td><td class="px-6 py-4 text-[#ffb4ab]">7.64%</td></tr>
+          <tr class="hover:bg-white/5 transition-colors"><td class="px-6 py-4 font-bold text-[#eee0d8]">Maharashtra</td><td class="px-6 py-4">1,110</td><td class="px-6 py-4 text-[#f4a261]">2.14%</td></tr>
+          <tr class="hover:bg-white/5 transition-colors"><td class="px-6 py-4 font-bold text-[#eee0d8]">Karnataka</td><td class="px-6 py-4">739</td><td class="px-6 py-4 text-[#f4a261]">5.14%</td></tr>
+          <tr class="hover:bg-white/5 transition-colors"><td class="px-6 py-4 font-bold text-[#eee0d8]">Madhya Pradesh</td><td class="px-6 py-4">375</td><td class="px-6 py-4 text-[#6fd8c8]">0.67%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Month Table -->
+  <div class="glass-panel rounded-xl overflow-hidden">
+    <div class="p-6 border-b border-white/10">
+      <h3 class="text-xl font-bold">Most Anomaly-Prone Months</h3>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left font-mono text-sm">
+        <thead class="bg-[#302823] text-[#d8c2b5] uppercase text-xs">
+          <tr><th class="px-6 py-4">Month</th><th class="px-6 py-4">Anomalies</th><th class="px-6 py-4">Anomaly Rate</th></tr>
+        </thead>
+        <tbody class="divide-y divide-white/5">
+          <tr class="hover:bg-white/5 transition-colors"><td class="px-6 py-4 font-bold text-[#eee0d8]">November</td><td class="px-6 py-4">3,428</td><td class="px-6 py-4 text-[#ffb4ab]">5.64%</td></tr>
+          <tr class="hover:bg-white/5 transition-colors"><td class="px-6 py-4 font-bold text-[#eee0d8]">October</td><td class="px-6 py-4">2,213</td><td class="px-6 py-4 text-[#f4a261]">3.28%</td></tr>
+          <tr class="hover:bg-white/5 transition-colors"><td class="px-6 py-4 font-bold text-[#eee0d8]">December</td><td class="px-6 py-4">2,032</td><td class="px-6 py-4 text-[#f4a261]">3.93%</td></tr>
+          <tr class="hover:bg-white/5 transition-colors"><td class="px-6 py-4 font-bold text-[#eee0d8]">July</td><td class="px-6 py-4">1,900</td><td class="px-6 py-4 text-[#6fd8c8]">2.50%</td></tr>
+          <tr class="hover:bg-white/5 transition-colors"><td class="px-6 py-4 font-bold text-[#eee0d8]">August</td><td class="px-6 py-4">1,873</td><td class="px-6 py-4 text-[#6fd8c8]">2.73%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="border-t border-white/10 mt-16">
+  <div class="flex flex-col md:flex-row justify-between items-center px-6 py-8 max-w-[1280px] mx-auto gap-4">
+    <span class="text-[#eee0d8] font-bold">Built by Sarwagya Shah</span>
+    <div class="flex gap-6 text-xs font-semibold tracking-[0.1em] uppercase text-[#d8c2b5]">
+      <a href="index.html" class="hover:text-[#6fd8c8] transition-colors no-underline">Home</a>
+      <a href="dashboard.html" class="hover:text-[#6fd8c8] transition-colors no-underline">Dashboard</a>
+      <a href="insights.html" class="hover:text-[#6fd8c8] transition-colors no-underline">Insights</a>
+      <a href="forecast.html" class="hover:text-[#6fd8c8] transition-colors no-underline">Forecast</a>
+      <a href="about.html" class="hover:text-[#6fd8c8] transition-colors no-underline">About</a>
+    </div>
+    <span class="text-[#d8c2b5] text-sm">Python · SQLite · Power BI · Prophet</span>
+  </div>
+</footer>
+<script src="shared.js"></script>
+</body>
+</html>

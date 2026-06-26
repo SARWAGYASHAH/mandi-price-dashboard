@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="description" content="Four-page Power BI dashboard blueprint for Indian agricultural mandi price analysis.">
+  <title>Dashboard | Mandi Intel</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+  <script>
+    tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-dim":"#18120e","surface":"#18120e","on-surface":"#eee0d8","on-surface-variant":"#d8c2b5","primary":"#ffc499","primary-container":"#f4a261","on-primary-container":"#6f3800","secondary":"#6fd8c8","tertiary":"#89dcf2","error":"#ffb4ab","surface-container":"#251e19","surface-container-high":"#302823","surface-container-highest":"#3b332e","outline-variant":"#534439"},spacing:{"stack-sm":"8px","stack-md":"24px","stack-lg":"48px","gutter":"24px","margin-mobile":"16px","container-max":"1280px"},fontFamily:{"body":["Inter"],"mono":["JetBrains Mono"]}}}}
+  </script>
+  <style>body{background:#080c14;color:#eee0d8;overflow-x:hidden;font-family:Inter,system-ui,sans-serif}</style>
+</head>
+<body>
+<div class="fixed inset-0 -z-10 opacity-50"><canvas id="shader-bg" style="display:block;width:100%;height:100%"></canvas></div>
+<div class="fixed inset-0 -z-10 dot-grid pointer-events-none opacity-30"></div>
+
+<!-- Nav -->
+<nav class="fixed top-0 w-full z-50 bg-white/5 backdrop-blur-xl border-b border-white/10">
+  <div class="flex justify-between items-center px-6 py-3 max-w-[1280px] mx-auto">
+    <a href="index.html" class="text-2xl font-extrabold tracking-tight text-[#eee0d8] no-underline">Mandi<span class="text-[#f4a261]">Intel</span></a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="index.html" class="text-[#d8c2b5] font-medium hover:text-[#f4a261] transition-colors">Home</a>
+      <a href="dashboard.html" class="text-[#f4a261] font-bold border-b-2 border-[#f4a261] pb-1">Dashboard</a>
+      <a href="insights.html" class="text-[#d8c2b5] font-medium hover:text-[#f4a261] transition-colors">Insights</a>
+      <a href="forecast.html" class="text-[#d8c2b5] font-medium hover:text-[#f4a261] transition-colors">Forecast</a>
+      <a href="about.html" class="text-[#d8c2b5] font-medium hover:text-[#f4a261] transition-colors">About</a>
+    </div>
+    <div class="flex items-center gap-4">
+      <a href="https://github.com/SARWAGYASHAH/mandi-price-dashboard" target="_blank" class="bg-[#f4a261] text-[#6f3800] px-6 py-2 rounded-full font-bold hover:scale-105 transition-transform primary-glow no-underline hidden sm:inline-block">View Repo →</a>
+      <button id="nav-toggle" class="md:hidden text-[#eee0d8]"><span class="material-symbols-outlined text-3xl">menu</span></button>
+    </div>
+  </div>
+</nav>
+<div id="mobile-menu" class="mobile-menu fixed top-0 right-0 w-72 h-full z-[60] bg-[#18120e]/95 backdrop-blur-xl border-l border-white/10 p-8 flex flex-col gap-6">
+  <button id="nav-close" class="self-end text-[#eee0d8]"><span class="material-symbols-outlined text-3xl">close</span></button>
+  <a href="index.html" class="text-[#d8c2b5] font-medium text-lg no-underline">Home</a>
+  <a href="dashboard.html" class="text-[#f4a261] font-bold text-lg no-underline">Dashboard</a>
+  <a href="insights.html" class="text-[#d8c2b5] font-medium text-lg no-underline">Insights</a>
+  <a href="forecast.html" class="text-[#d8c2b5] font-medium text-lg no-underline">Forecast</a>
+  <a href="about.html" class="text-[#d8c2b5] font-medium text-lg no-underline">About</a>
+</div>
+
+<main class="pt-32 max-w-[1280px] mx-auto px-4 md:px-6 pb-16">
+
+<!-- Header -->
+<header class="mb-16 reveal">
+  <div class="flex items-center gap-2 mb-3">
+    <span class="w-12 h-[1px] bg-[#f4a261]"></span>
+    <span class="text-xs font-semibold tracking-[0.2em] text-[#6fd8c8] uppercase">Power BI Design</span>
+  </div>
+  <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">Four pages, one analytical story.</h1>
+  <p class="text-[#d8c2b5] text-lg max-w-2xl">These previews are generated directly from the cleaned dataset using Matplotlib and act as the visual build reference for the documented Power BI model and DAX layer.</p>
+</header>
+
+<!-- Design Specs Bar -->
+<div class="glass-panel p-6 rounded-xl mb-12 reveal flex flex-wrap gap-6 text-sm">
+  <div><span class="text-[#d8c2b5]">Canvas:</span> <span class="font-bold">16:9 · 1280×720</span></div>
+  <div><span class="text-[#d8c2b5]">Theme:</span> <span class="font-bold">Deep navy + saffron highlights</span></div>
+  <div><span class="text-[#d8c2b5]">Slicers:</span> <span class="font-bold">Date · Commodity · State · Season</span></div>
+  <div><span class="text-[#d8c2b5]">Tooltips:</span> <span class="font-bold">Quote count in every visual</span></div>
+</div>
+
+<!-- Dashboard Gallery -->
+<div class="space-y-12">
+
+  <!-- Page 1 -->
+  <article class="glass-card rounded-2xl overflow-hidden reveal">
+    <div class="img-zoom"><img src="assets/page1.png" alt="National Overview dashboard" class="w-full" loading="lazy"></div>
+    <div class="p-8">
+      <div class="flex items-center gap-3 mb-3">
+        <span class="bg-[#f4a261]/15 text-[#f4a261] text-xs font-bold px-3 py-1 rounded font-mono">01</span>
+        <h2 class="text-2xl font-bold">National Overview</h2>
+      </div>
+      <p class="text-[#d8c2b5] leading-relaxed">Executive summary with KPI cards for average modal price (₹2,475), total market entries (736,711), and anomaly count (16,336). Multi-line trend chart by commodity, clustered bar comparison, seasonal matrix, and anomaly concentration donut.</p>
+    </div>
+  </article>
+
+  <!-- Page 2 -->
+  <article class="glass-card rounded-2xl overflow-hidden reveal">
+    <div class="img-zoom"><img src="assets/page2.png" alt="State Wise Comparison dashboard" class="w-full" loading="lazy"></div>
+    <div class="p-8">
+      <div class="flex items-center gap-3 mb-3">
+        <span class="bg-[#6fd8c8]/15 text-[#6fd8c8] text-xs font-bold px-3 py-1 rounded font-mono">02</span>
+        <h2 class="text-2xl font-bold">State Wise Comparison + India Map</h2>
+      </div>
+      <p class="text-[#d8c2b5] leading-relaxed">India filled map with sequential light-to-dark saffron shading (light = cheaper, dark = expensive). Top 10 state ranking bar, price-vs-coverage scatter plot sized by anomaly count, and a state × commodity matrix with price rankings.</p>
+    </div>
+  </article>
+
+  <!-- Page 3 -->
+  <article class="glass-card rounded-2xl overflow-hidden reveal">
+    <div class="img-zoom"><img src="assets/page3.png" alt="Crop Deep Dive dashboard" class="w-full" loading="lazy"></div>
+    <div class="p-8">
+      <div class="flex items-center gap-3 mb-3">
+        <span class="bg-[#89dcf2]/15 text-[#89dcf2] text-xs font-bold px-3 py-1 rounded font-mono">03</span>
+        <h2 class="text-2xl font-bold">Crop Deep Dive</h2>
+      </div>
+      <p class="text-[#d8c2b5] leading-relaxed">Single-select commodity analysis. Daily median with 30-day rolling average line, MoM/YoY change KPIs, price volatility index, seasonal average bars, cheapest and most expensive market cards, and top markets by reporting frequency.</p>
+    </div>
+  </article>
+
+  <!-- Page 4 -->
+  <article class="glass-card rounded-2xl overflow-hidden reveal">
+    <div class="img-zoom"><img src="assets/page4.png" alt="Market Intelligence dashboard" class="w-full" loading="lazy"></div>
+    <div class="p-8">
+      <div class="flex items-center gap-3 mb-3">
+        <span class="bg-[#ffb4ab]/15 text-[#ffb4ab] text-xs font-bold px-3 py-1 rounded font-mono">04</span>
+        <h2 class="text-2xl font-bold">Market Intelligence + Anomaly Flags</h2>
+      </div>
+      <p class="text-[#d8c2b5] leading-relaxed">Anomaly investigation page with 16,336 flagged records. State and commodity anomaly bars, observed-vs-rolling price scatter (normal vs anomaly colored), highest-severity detail table with z-scores, and conditional formatting for flags.</p>
+    </div>
+  </article>
+
+</div>
+
+<!-- DAX & Model Info -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16 reveal">
+  <div class="glass-panel p-8 rounded-xl">
+    <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-[#f4a261]">functions</span> 18 DAX Measures</h3>
+    <ul class="text-[#d8c2b5] text-sm space-y-2 list-none p-0">
+      <li>Base: Avg Modal Price, Max/Min Price, Total Entries</li>
+      <li>Trend: MoM Change %, YoY Change %, 30-Day Rolling Avg, Volatility Index</li>
+      <li>Comparison: State Rank, Top 5 Markets, Cheapest/Expensive Market</li>
+      <li>Seasonal: Season Avg, Peak/Lowest Price Month</li>
+      <li>Anomaly: Total Count, % by State, % by Commodity</li>
+    </ul>
+  </div>
+  <div class="glass-panel p-8 rounded-xl">
+    <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-[#6fd8c8]">schema</span> Data Model</h3>
+    <ul class="text-[#d8c2b5] text-sm space-y-2 list-none p-0">
+      <li><strong class="text-[#eee0d8]">MandiPrices</strong> — 736,711 row fact table (quote-level)</li>
+      <li><strong class="text-[#eee0d8]">DimDate</strong> — Continuous calendar with Year, Month, Quarter, Season</li>
+      <li><strong class="text-[#eee0d8]">Relationship:</strong> DimDate[Date] → MandiPrices[arrival_date] (1:M)</li>
+      <li><strong class="text-[#eee0d8]">State:</strong> data category State or Province (for India map)</li>
+    </ul>
+  </div>
+</div>
+
+</main>
+
+<!-- Footer -->
+<footer class="border-t border-white/10 mt-16">
+  <div class="flex flex-col md:flex-row justify-between items-center px-6 py-8 max-w-[1280px] mx-auto gap-4">
+    <span class="text-[#eee0d8] font-bold">Built by Sarwagya Shah</span>
+    <div class="flex gap-6 text-xs font-semibold tracking-[0.1em] uppercase text-[#d8c2b5]">
+      <a href="index.html" class="hover:text-[#6fd8c8] transition-colors no-underline">Home</a>
+      <a href="dashboard.html" class="hover:text-[#6fd8c8] transition-colors no-underline">Dashboard</a>
+      <a href="insights.html" class="hover:text-[#6fd8c8] transition-colors no-underline">Insights</a>
+      <a href="forecast.html" class="hover:text-[#6fd8c8] transition-colors no-underline">Forecast</a>
+      <a href="about.html" class="hover:text-[#6fd8c8] transition-colors no-underline">About</a>
+    </div>
+    <span class="text-[#d8c2b5] text-sm">Python · SQLite · Power BI · Prophet</span>
+  </div>
+</footer>
+<script src="shared.js"></script>
+</body>
+</html>
