@@ -18,6 +18,15 @@ POWERBI_DIR = ROOT / "powerbi"
 DOCS_DIR = ROOT / "docs"
 
 TARGET_COMMODITIES = ("Onion", "Tomato", "Potato", "Wheat", "Rice")
+STATE_ALIASES = {
+    "Chattisgarh": "Chhattisgarh",
+    "Gao": "Goa",
+    "Jammu & Kashmir": "Jammu and Kashmir",
+    "Jammu And Kashmir": "Jammu and Kashmir",
+    "Orissa": "Odisha",
+    "Tamilnadu": "Tamil Nadu",
+    "Uttrakhand": "Uttarakhand",
+}
 REQUIRED_COLUMNS = (
     "state",
     "district",

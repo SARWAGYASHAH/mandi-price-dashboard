@@ -12,6 +12,7 @@ import pandas as pd
 from common import (
     CLEANED_DIR,
     RAW_DIR,
+    STATE_ALIASES,
     TARGET_COMMODITIES,
     ensure_directories,
     standardize_columns,
@@ -89,7 +90,12 @@ def clean_data(frame: pd.DataFrame) -> tuple[pd.DataFrame, dict[str, object]]:
 
     frame = frame.copy()
     for column in TEXT_COLUMNS:
-        frame[column] = frame[column].astype("string").str.strip()
+        frame[column] = (
+            frame[column]
+            .astype("string")
+            .str.strip()
+            .replace(r"^\s*$", pd.NA, regex=True)
+        )
 
     normalized_targets = {name.casefold(): name for name in TARGET_COMMODITIES}
     frame["commodity"] = frame["commodity"].str.casefold().map(normalized_targets)
@@ -99,10 +105,14 @@ def clean_data(frame: pd.DataFrame) -> tuple[pd.DataFrame, dict[str, object]]:
 
     for column in ("state", "district", "market"):
         frame[column] = frame[column].str.replace(r"\s+", " ", regex=True).str.title()
-    frame["variety"] = (
-        frame["variety"].fillna("Unknown").replace("", "Unknown").str.strip()
+    state_before = frame["state"].copy()
+    frame["state"] = frame["state"].replace(STATE_ALIASES)
+    report["rows_with_canonicalized_state_name"] = int(
+        state_before.ne(frame["state"]).sum()
     )
-    frame["grade"] = frame["grade"].fillna("Unknown").replace("", "Unknown").str.strip()
+    report["state_aliases_applied"] = STATE_ALIASES
+    frame["variety"] = frame["variety"].fillna("Unknown")
+    frame["grade"] = frame["grade"].fillna("Unknown")
 
     frame["arrival_date"] = pd.to_datetime(
         frame["arrival_date"], errors="coerce", format="mixed", dayfirst=False
@@ -202,6 +212,7 @@ def clean_data(frame: pd.DataFrame) -> tuple[pd.DataFrame, dict[str, object]]:
                 "non_positive_prices": "Drop because mandi prices must be positive.",
                 "max_below_min": "Drop because the quoted range is internally invalid.",
                 "modal_outside_range": "Retain and flag for audit; these may be source errors or genuine unusual quotes.",
+                "state_names": "Map known spelling and naming variants to canonical Indian state or union territory names for reliable grouping and map geocoding.",
             },
         }
     )

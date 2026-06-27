@@ -1,6 +1,16 @@
 {
   "input_rows": 737392,
   "rows_removed_non_target_commodity": 0,
+  "rows_with_canonicalized_state_name": 96113,
+  "state_aliases_applied": {
+    "Chattisgarh": "Chhattisgarh",
+    "Gao": "Goa",
+    "Jammu & Kashmir": "Jammu and Kashmir",
+    "Jammu And Kashmir": "Jammu and Kashmir",
+    "Orissa": "Odisha",
+    "Tamilnadu": "Tamil Nadu",
+    "Uttrakhand": "Uttarakhand"
+  },
   "rows_removed_missing_or_invalid_critical_values": 0,
   "rows_removed_non_positive_prices": 679,
   "rows_removed_max_below_min": 2,
@@ -16,14 +26,15 @@
     "Wheat"
   ],
   "anomaly_rows": 16336,
-  "volatility_flag_rows": 54688,
+  "volatility_flag_rows": 54689,
   "modal_outside_min_max_rows_retained": 1246,
   "missing_value_policy": {
     "critical_dimensions_dates_prices": "Drop rows that remain missing or fail parsing.",
     "variety_and_grade": "Fill blank values with 'Unknown'.",
     "non_positive_prices": "Drop because mandi prices must be positive.",
     "max_below_min": "Drop because the quoted range is internally invalid.",
-    "modal_outside_range": "Retain and flag for audit; these may be source errors or genuine unusual quotes."
+    "modal_outside_range": "Retain and flag for audit; these may be source errors or genuine unusual quotes.",
+    "state_names": "Map known spelling and naming variants to canonical Indian state or union territory names for reliable grouping and map geocoding."
   },
   "source_files": [
     "Agriculture_price_dataset.csv"
