@@ -3,7 +3,8 @@
 An interview-ready analytics portfolio that turns **736,711** Indian mandi price
 quotes into a reproducible Python and SQLite pipeline, a documented four-page
 Power BI report, anomaly investigations, Prophet forecasts, automated
-plain-English insights, and a responsive multi-page project website.
+plain-English insights, and a responsive multi-page project website — with a
+**daily auto-update pipeline** powered by GitHub Actions and the data.gov.in API.
 
 <p align="center">
   <a href="https://sarwagyashah.github.io/mandi-price-dashboard/"><strong>🔗 View Live Website</strong></a>
@@ -33,9 +34,10 @@ contains State, District, Market, Commodity, Variety, Grade, Price Date,
 Min Price, Max Price, and Modal Price. Only **Onion, Tomato, Potato, Wheat, and
 Rice** are retained.
 
-No publisher URL or source-provenance metadata was included with the provided
-file, so this repository does not claim a public origin it cannot verify.
-Raw and large generated CSV files are intentionally ignored by Git.
+**Live data** is fetched daily from the [data.gov.in](https://data.gov.in)
+Open Government Data API (resource `9ef84268-d588-465a-a308-a864a43d0070`)
+via `scripts/fetch_live_data.py`. The script uses incremental watermarking to
+download only new records since the last successful run.
 
 ### Cleaned Coverage
 
@@ -58,11 +60,15 @@ Raw and large generated CSV files are intentionally ignored by Git.
 | **Power BI** | Star schema, 18 DAX measures, 4-page interactive dashboard |
 | **HTML/CSS/JS** | 5-page responsive website with WebGL shader background |
 | **GitHub Pages** | Live deployment of the project portfolio website |
+| **GitHub Actions** | Daily automated data refresh and pipeline execution |
 
 ## 📁 Project Structure
 
 ```text
 mandi-price-dashboard/
+├── .github/
+│   └── workflows/
+│       └── daily_update.yml          # Daily auto-update pipeline
 ├── data/
 │   ├── raw/Agriculture_price_dataset.csv
 │   ├── cleaned/
@@ -72,18 +78,29 @@ mandi-price-dashboard/
 │   │   ├── anomaly_report.csv
 │   │   ├── onion_forecast.csv
 │   │   └── tomato_forecast.csv
+│   ├── ingestion_metadata.json       # Watermark for incremental fetches
 │   └── mandi_prices.db
 ├── scripts/
-│   ├── common.py
-│   ├── data_cleaning.py
-│   ├── anomaly_detection.py
-│   ├── forecast_model.py
-│   ├── automated_insights.py
-│   ├── generate_dashboard_previews.py
-│   └── run_pipeline.py
+│   ├── common.py                     # Shared constants and paths
+│   ├── data_cleaning.py              # Task 1: Clean and derive features
+│   ├── anomaly_detection.py          # Task 6: 2σ anomaly flagging
+│   ├── forecast_model.py             # Task 5: Prophet forecasts
+│   ├── automated_insights.py         # Task 7: Plain English insights
+│   ├── generate_dashboard_previews.py # Matplotlib dashboard PNGs
+│   ├── fetch_live_data.py            # Live data from data.gov.in API
+│   └── run_pipeline.py               # One-command pipeline orchestrator
 ├── sql/
 │   ├── queries.sql
 │   └── query_results/
+│       ├── 01_state_commodity_avg_prices.csv
+│       ├── 02_top_10_expensive_markets.csv
+│       ├── 03_bottom_10_cheapest_markets.csv
+│       ├── 04_monthly_crop_aggregation.csv
+│       ├── 05_season_wise_comparison.csv
+│       ├── 06_anomaly_flagged_records.csv
+│       ├── 07_state_price_rankings.csv
+│       ├── 08_yoy_price_change.csv
+│       └── README.md
 ├── powerbi/
 │   ├── data_model.md
 │   ├── dax_measures.md
@@ -141,20 +158,25 @@ and a two-standard-deviation anomaly flag. Exact row decisions are written to
 `sql/queries.sql` imports the cleaned CSV through a text staging table, creates
 a typed and indexed `mandi_prices` table, and exports eight result sets:
 
-- State and commodity average prices
-- Top and bottom ten markets
-- Monthly crop aggregation
-- Season comparison
-- Anomaly records
-- State price ranking
-- Year-over-year commodity change
+| Query | Output |
+|---|---|
+| State and commodity average prices | `01_state_commodity_avg_prices.csv` |
+| Top 10 most expensive markets | `02_top_10_expensive_markets.csv` |
+| Bottom 10 cheapest markets | `03_bottom_10_cheapest_markets.csv` |
+| Monthly crop aggregation | `04_monthly_crop_aggregation.csv` |
+| Season-wise comparison | `05_season_wise_comparison.csv` |
+| Anomaly flagged records | `06_anomaly_flagged_records.csv` |
+| State price rankings | `07_state_price_rankings.csv` |
+| Year-over-year commodity change | `08_yoy_price_change.csv` |
 
 ### 3. Power BI
 
 The report uses `MandiPrices` as a quote-level fact table and `DimDate` as an
-active one-to-many date dimension. The complete model, DAX, formatting,
-interactions, and exact four-page visual inventory are documented in
-`powerbi/`.
+active one-to-many date dimension. 18 DAX measures are organized across five
+categories: Basic, Trend, Comparison, Seasonal, and Anomaly.
+
+The complete model, DAX, formatting, interactions, and exact four-page visual
+inventory are documented in `powerbi/`.
 
 The committed PNGs are data-backed build previews generated with Matplotlib.
 They are not presented as a `.pbix` export.
@@ -162,14 +184,26 @@ They are not presented as a `.pbix` export.
 ### 4. Anomaly Detection
 
 Each modal price is compared with its commodity mean and standard deviation.
-A z-score above 2 is a **High Price Spike** and below -2 is a **Low Price
-Drop**. This flags 16,336 records: 16,204 high spikes and 132 low drops.
-Potato contributes 9,646 flags, Tamil Nadu contributes 9,085, and November has
-the highest monthly count at 3,428.
+A z-score above 2 is a **High Price Spike** and below −2 is a **Low Price
+Drop**.
+
+| Metric | Value |
+|---|---:|
+| Records analysed | 736,711 |
+| Records flagged | 16,336 (2.22%) |
+| High price spikes | 16,204 |
+| Low price drops | 132 |
+| Commodity with most anomalies | Potato (9,646) |
+| State with most anomalies | Tamil Nadu (9,085) |
+| Month with most anomalies | November (3,428) |
+| Highest spike | Onion at Jehanabad, Bihar — INR 460,000 (z = 196.13) |
+| Lowest drop | Wheat at Shamshabad, MP — INR 215 (z = −7.63) |
 
 A flag is an investigation signal, not evidence of manipulation. Arrival
 quantity, grade, weather, trader, auction, and enforcement data are required
 for causal or misconduct claims.
+
+Full anomaly breakdown: [insights/anomaly_summary.md](insights/anomaly_summary.md)
 
 ### 5. Forecasting
 
@@ -181,15 +215,17 @@ Evaluation uses a chronological holdout of up to 90 observed days, capped at
 20% of the series with a 30-day minimum. No future holdout observations are
 used to fill training gaps.
 
-| Commodity | MAE (INR/qtl) | RMSE (INR/qtl) | MAPE | Holdout |
-|---|---:|---:|---:|---|
-| Onion | 1,274.95 | 1,350.87 | 86.52% | 90 observations |
-| Tomato | 1,087.84 | 1,185.04 | 74.84% | 31 observations |
+| Commodity | MAE (INR/qtl) | RMSE (INR/qtl) | MAPE | Holdout | Period |
+|---|---:|---:|---:|---:|---|
+| Onion | 1,274.95 | 1,350.87 | 86.52% | 90 obs | 2025-03-14 to 2025-06-11 |
+| Tomato | 1,087.84 | 1,185.04 | 74.84% | 31 obs | 2023-10-07 to 2023-11-06 |
 
 The errors are high, so these forecasts are transparent analytical baselines,
 not operational trading models. Tomato observations end on 6 November 2023;
 its exported forecast is therefore a historical modeling artifact relative to
 the full dataset.
+
+Full methodology: [insights/forecast_accuracy.md](insights/forecast_accuracy.md)
 
 #### Onion — 90 Day Forecast
 
@@ -198,6 +234,19 @@ the full dataset.
 #### Tomato — 90 Day Forecast
 
 ![Tomato Forecast](visuals/tomato_forecast.png)
+
+### 6. Automated Insights
+
+`scripts/automated_insights.py` generates plain English summaries covering:
+
+- Top price spike with date, state, and percentage deviation
+- Most volatile crop with coefficient of variation
+- Cheapest state for each commodity
+- Most expensive market overall
+- Seasonal pattern summary
+- Anomaly count summary
+
+Output: [insights/automated_insights.txt](insights/automated_insights.txt)
 
 ## 🔑 Key Findings
 
@@ -212,7 +261,7 @@ the full dataset.
 5. **Quality and anomaly checks converge:** 16,336 statistical flags and 1,246
    modal prices outside their stated range identify focused audit priorities.
 
-Detailed interpretation is in [insights/key_findings.md](insights/key_findings.md).
+Detailed interpretation: [insights/key_findings.md](insights/key_findings.md)
 
 ## 📈 Dashboard Pages
 
@@ -258,6 +307,34 @@ The project includes a 5-page responsive portfolio website deployed on GitHub Pa
 - Fully responsive with mobile hamburger menu
 - Inter + JetBrains Mono typography
 
+## 🔄 Live Data Pipeline
+
+The project includes a fully automated daily update system:
+
+```
+GitHub Actions (daily_update.yml)
+  ├── fetch_live_data.py    → Pull new prices from data.gov.in API
+  ├── data_cleaning.py      → Clean and add derived features
+  ├── queries.sql            → Refresh SQL aggregations
+  ├── anomaly_detection.py  → Re-run anomaly flagging
+  ├── forecast_model.py     → Update Prophet forecasts
+  ├── automated_insights.py → Regenerate English summaries
+  └── generate_dashboard_previews.py → Rebuild dashboard PNGs
+```
+
+**Schedule:** Runs daily at 12:00 PM IST (6:30 AM UTC) via cron.
+
+**Incremental ingestion:** A watermark file (`data/ingestion_metadata.json`)
+tracks the last successfully fetched date. Each run downloads only new data
+since the watermark — no redundant re-downloads.
+
+**Manual trigger:** The workflow supports `workflow_dispatch` with options for:
+- `days_back` — fetch the last N days
+- `full_refresh` — re-download up to 365 days of history
+
+**Graceful fallback:** If `DATA_GOV_API_KEY` is not set, the pipeline skips
+the live fetch and re-processes existing data.
+
 ## 🚀 Run the Project
 
 Prerequisites: Python 3.11 or newer, pip, and the SQLite command-line shell.
@@ -285,6 +362,19 @@ python scripts/automated_insights.py
 python scripts/generate_dashboard_previews.py
 ```
 
+### Live data (optional)
+
+To fetch fresh prices locally, register a free API key at
+[data.gov.in](https://data.gov.in) and set it as an environment variable:
+
+```bash
+export DATA_GOV_API_KEY="your_key_here"
+python scripts/fetch_live_data.py --days-back 7
+```
+
+For the GitHub Actions daily pipeline, add the key as a repository secret
+named `DATA_GOV_API_KEY` under **Settings → Secrets → Actions**.
+
 The dashboard preview generator downloads the India state-boundary GeoJSON
 published by the [DataMeet maps project](https://github.com/datameet/maps) at
 runtime. The website assets are copies of generated previews and forecasts.
@@ -292,10 +382,11 @@ runtime. The website assets are copies of generated previews and forecasts.
 To preview the website:
 
 ```bash
+cd docs
 python -m http.server 8000
 ```
 
-Open `http://localhost:8000/docs/`.
+Open `http://localhost:8000`.
 
 ## 👤 Author
 

@@ -136,10 +136,11 @@ CREATE INDEX idx_mandi_anomaly
 ANALYZE;
 
 .headers on
-.mode column
+.mode csv
 
 -- Query 1: Compare typical commodity prices across states to identify regional
 -- price differences and support state-level sourcing or policy decisions.
+.once sql/query_results/01_state_commodity_avg_prices.csv
 SELECT
     state,
     commodity,
@@ -151,6 +152,7 @@ ORDER BY commodity, avg_modal_price DESC, state;
 
 -- Query 2: Identify the ten markets with the highest average modal prices,
 -- highlighting expensive trading locations and possible supply constraints.
+.once sql/query_results/02_top_10_expensive_markets.csv
 SELECT
     state,
     district,
@@ -164,6 +166,7 @@ LIMIT 10;
 
 -- Query 3: Identify the ten markets with the lowest average modal prices,
 -- revealing lower-cost sourcing opportunities across the mandi network.
+.once sql/query_results/03_bottom_10_cheapest_markets.csv
 SELECT
     state,
     district,
@@ -177,6 +180,7 @@ LIMIT 10;
 
 -- Query 4: Summarize monthly crop prices to expose time trends and provide the
 -- grain needed for month-over-month analysis in reporting tools.
+.once sql/query_results/04_monthly_price_aggregation.csv
 SELECT
     commodity,
     year,
@@ -195,6 +199,7 @@ ORDER BY commodity, year, month_number;
 
 -- Query 5: Compare prices by agricultural season to show how crop cycles and
 -- seasonal supply patterns affect modal prices for each commodity.
+.once sql/query_results/05_season_price_comparison.csv
 SELECT
     commodity,
     season,
@@ -207,6 +212,7 @@ ORDER BY commodity, avg_modal_price DESC;
 
 -- Query 6: Return every statistically flagged price record for investigation
 -- of unusual spikes, drops, data-quality issues, or market manipulation risks.
+.once sql/query_results/06_anomaly_flagged_records.csv
 SELECT
     arrival_date,
     state,
@@ -226,6 +232,7 @@ ORDER BY ABS(price_z_score) DESC, arrival_date DESC;
 
 -- Query 7: Rank states within each commodity by average modal price so users
 -- can compare relative price positions without larger-value crops dominating.
+.once sql/query_results/07_state_price_rankings.csv
 WITH state_prices AS (
     SELECT
         commodity,
@@ -249,6 +256,7 @@ ORDER BY commodity, state_price_rank, state;
 
 -- Query 8: Calculate year-over-year average price movement per commodity to
 -- quantify long-term inflation, deflation, and major shifts in mandi pricing.
+.once sql/query_results/08_year_over_year_price_change.csv
 WITH yearly_prices AS (
     SELECT
         commodity,

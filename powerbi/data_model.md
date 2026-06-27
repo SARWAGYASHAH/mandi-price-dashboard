@@ -3,7 +3,7 @@
 This model uses the cleaned mandi dataset as a quote-level fact table and a
 dedicated date dimension for reliable time intelligence. The source contains
 736,711 records from 2023-06-06 through 2025-06-11 for Onion, Potato, Rice,
-Tomato, and Wheat.
+Tomato, and Wheat across 26 canonical state or union territory labels.
 
 ## Load the Fact Table
 
@@ -163,20 +163,23 @@ Use these display folders on `MandiPrices`:
 Set the data category for `state` to **State or Province** and `district` to
 **County**. Set the data category for `market` to **Place**. This metadata
 supports the India filled-map visual planned for the dashboard while retaining
-the original text values.
+the cleaned text values. The Python pipeline canonicalizes known source
+variants such as `Tamilnadu` to `Tamil Nadu`, `Orissa` to `Odisha`, and
+`Uttrakhand` to `Uttarakhand` before Power BI loads the file.
 
 ## Validation Checklist
 
 After applying the model, verify:
 
 1. `MandiPrices` contains exactly 736,711 rows.
-2. `DimDate` runs continuously from 2023-06-06 through 2025-06-11.
-3. The relationship is active, one-to-many, and filters from `DimDate` to
+2. `MandiPrices[state]` contains 26 distinct canonical values.
+3. `DimDate` runs continuously from 2023-06-06 through 2025-06-11.
+4. The relationship is active, one-to-many, and filters from `DimDate` to
    `MandiPrices`.
-4. A table grouped by `DimDate[Year]` and `commodity` matches the annual SQL
+5. A table grouped by `DimDate[Year]` and `commodity` matches the annual SQL
    aggregations in `sql/query_results/08_year_over_year_price_change.csv`.
-5. A card using `Total Market Entries` returns 736,711 with no filters.
-6. Selecting a date slicer changes all four base measures.
+6. A card using `Total Market Entries` returns 736,711 with no filters.
+7. Selecting a date slicer changes all four base measures.
 
 The completed model is the foundation for the trend, comparison, seasonal,
 and anomaly measures added in the next commit.
